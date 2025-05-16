@@ -1,1 +1,20 @@
-SELECT EXTRACT(year FROM 
+WITH daily_views AS (
+    SELECT 
+        DATE(session_start_timestamp) AS view_date,
+        COUNT(*) AS view_count
+    FROM 
+        Watch_History
+    WHERE 
+        EXTRACT(YEAR FROM session_start_timestamp) = 2024
+    GROUP BY 
+        view_date
+)
+SELECT 
+    view_date,
+    view_count
+FROM 
+    daily_views
+WHERE 
+    view_count = (SELECT MAX(view_count) FROM daily_views);
+
+// CHATGPT, CHANGE BEFORE SUBMITTING
