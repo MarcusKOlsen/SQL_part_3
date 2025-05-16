@@ -1,0 +1,26 @@
+// A join between show and episode to get the TV Show title and not the episode one
+WITH show_info AS
+(
+SELECT TV_Show.title, content_id
+FROM TV_Show
+INNER JOIN Episode ON TV_Show.show_id = Episode.show_id
+), movie_info AS 
+(
+SELECT title, content_id 
+FROM Movie
+), show_movie_join AS 
+(
+SELECT * FROM show_info
+UNION
+SELECT * FROM movie_info
+), show_movie_content_join AS
+(
+SELECT title, platform_id, type
+FROM Content
+INNER JOIN show_movie_join ON Content.content_id = show_movie_join.content_id
+)
+
+SELECT title, name, type
+FROM show_movie_content_join
+INNER JOIN Streaming_Platform ON show_movie_content_join.platform_id = Streaming_Platform.platform_id
+

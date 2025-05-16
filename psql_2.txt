@@ -1,0 +1,4 @@
+SELECT user_id, first_name, last_name, COUNT(user_id)
+FROM Users
+INNER JOIN Contents ON Users.user_id = Contents.uploadedBy
+GROUP BY user_id
